@@ -1,7 +1,6 @@
 const fp = require('lodash/fp')
 const { Maybe, Container } = require('./support')
 
-
 /*
   练习1: 
   实现函数 ex1 
@@ -12,10 +11,11 @@ const { Maybe, Container } = require('./support')
 let maybe = Maybe.of([5, 6, 1])
 
 // 2.实现 ex1 函数
-
+function ex1(arr) {
+  return fp.map(fp.add(1))(arr)
+}
 // 3.调用测试
-console.log( maybe.map(ex1) )  // Maybe { _value: [ 6, 7, 2 ] }
-
+console.log(maybe.map(ex1)) // Maybe { _value: [ 6, 7, 2 ] }
 
 /*
   练习2:
@@ -26,10 +26,11 @@ console.log( maybe.map(ex1) )  // Maybe { _value: [ 6, 7, 2 ] }
 let xs = Container.of(['do', 'ray', 'me', 'fa', 'so', 'la', 'ti', 'do'])
 
 // 2.实现 ex2
-
+function ex2(arr) {
+  return fp.first(arr)
+}
 // 3.测试打印
-// console.log( xs.map(ex2) )  // Container { _value: 'do' }
-
+console.log(xs.map(ex2)) // Container { _value: 'do' }
 
 /*
   练习3:
@@ -37,15 +38,16 @@ let xs = Container.of(['do', 'ray', 'me', 'fa', 'so', 'la', 'ti', 'do'])
   使用 safeProp 和 fp.first 找到 user 的名字的首字母
 */
 let safeProp = fp.curry(function (x, o) {
-	return Maybe.of(o[x])
+  return Maybe.of(o[x])
 })
-let user = { id: 2, name: 'Albert'}
+let user = { id: 2, name: 'Albert' }
 
 // 1.实现 ex3
-
+function ex3() {
+  return safeProp('name')(user).map(fp.first)
+}
 // 2.测试打印
-console.log( ex3() ) // Maybe { _value: 'A' }
-
+console.log(ex3()) // Maybe { _value: 'A' }
 
 /*
   练习4:
@@ -61,14 +63,16 @@ console.log( ex3() ) // Maybe { _value: 'A' }
 */
 
 // 1.实现 ex4 函数
-
+function ex4(n) {
+  return Maybe.of(n).map(parseInt)
+}
 // 2.测试打印
-console.log( ex4('7R') )   // Maybe { _value: 7 }
-console.log( ex4('7.6B'))  // Maybe { _value: 7 }
-console.log( ex4('8.2G') ) // Maybe { _value: 8 }
+console.log(ex4('7R')) // Maybe { _value: 7 }
+console.log(ex4('7.6B')) // Maybe { _value: 7 }
+console.log(ex4('8.2G')) // Maybe { _value: 8 }
 
-console.log( ex4(null) )      // Maybe { _value: null }
-console.log( ex4(undefined) ) // Maybe { _value: undefined }
+console.log(ex4(null)) // Maybe { _value: null }
+console.log(ex4(undefined)) // Maybe { _value: undefined }
 
-console.log( ex4('i7.5') )    // Maybe { _value: NaN }
-console.log( ex4('abc') )     // Maybe { _value: NaN }
+console.log(ex4('i7.5')) // Maybe { _value: NaN }
+console.log(ex4('abc')) // Maybe { _value: NaN }
