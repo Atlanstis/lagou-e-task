@@ -28,7 +28,7 @@
 
 (html,css,等素材已经放到code/pages-boilerplate目录)
 
-　
+[说明文档](https://github.com/Atlanstis/gulp-demo)
 
 　
 
