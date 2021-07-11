@@ -1,6 +1,6 @@
 # vue-app-base(webpack5 + vue2.x)
 
-![](https://github.com/Atlanstis/lagou-e-task/blob/master/part2/fed-e-task-02-02/code/vue-app-base/assets/webpack5%20%2B%20vue2.x.png)
+![webpack5 + vue2.x](https://github.com/Atlanstis/lagou-e-task/blob/master/part2/fed-e-task-02-02/code/vue-app-base/assets/webpack5%20%2B%20vue2.x.png)
 
 ## 基础资源处理
 
