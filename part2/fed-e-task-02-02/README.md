@@ -63,22 +63,9 @@ Plugin 在 plugins 中单独配置，类型为数组，每一项是一个 Plugin
 
 
 
-**提示：(开始前必看)**
+#### 实现说明
 
-在视频录制后，webpack 版本以迅雷不及掩耳的速度升级到 5，相应 webpack-cli、webpack-dev-server 都有改变。
-
-项目中使用服务器的配置应该是改为下面这样：
-
-```json
-// package.json 中部分代码
-"scripts": {
-	"serve": "webpack serve --config webpack.config.js"
-}
-```
-
-vue 文件中 使用 style-loader 即可
-
-**其它问题, 可先到 https://www.npmjs.com/ 上搜索查看相应包的最新版本的配置示例, 可以解决大部分问题.**
+[readme](https://github.com/Atlanstis/lagou-e-task/blob/master/part2/fed-e-task-02-02/code/vue-app-base/README.md)
 
 
 
