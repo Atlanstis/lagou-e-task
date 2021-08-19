@@ -42,17 +42,19 @@ let vm = new Vue({
 
 ### 1、模拟 VueRouter 的 hash 模式的实现，实现思路和 History 模式类似，把 URL 中的 # 后面的内容作为路由的地址，可以通过 hashchange 事件监听路由地址的变化。
 
- 　
+[实现]([https://github.com/Atlanstis/lagou-e-task/tree/master/part3/fed-e-task-03-01/1.vue-router )　
 
 　
 
 ### 2、在模拟 Vue.js 响应式源码的基础上实现 v-html 指令，以及 v-on 指令。
 
- 　
+[实现](https://github.com/Atlanstis/lagou-e-task/tree/master/part3/fed-e-task-03-01/2.%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86) 　
 
 　
 
 ### 3、参考 Snabbdom 提供的电影列表的示例，利用Snabbdom 实现类似的效果，如图：
 
 <img src="images/Ciqc1F7zUZ-AWP5NAAN0Z_t_hDY449.png" alt="Ciqc1F7zUZ-AWP5NAAN0Z_t_hDY449" style="zoom:50%;" />
+
+[实现](https://github.com/Atlanstis/lagou-e-task/tree/master/part3/fed-e-task-03-01/3.snabbdom)
 
