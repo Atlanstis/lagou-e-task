@@ -674,6 +674,86 @@ if (oldStartIdx > oldEndIdx) {
 
 <img src="assets/模板编译过程.png" alt="模板编译过程" style="zoom:50%;" />
 
-　
+模版编译的目的就是将模版 template 转换成渲染函数 render。
 
-　
+- 模板编译是将字符串模板转换成 AST 对象。
+- 通过标记静态根节点的方式进行优化 AST 对象，这样在 patch 的时候直接跳过静态内容。
+- 优化好的 AST 转换成字符串形式代码，之后通过 new Function() 转换成方法，最终得到 render 函数。
+
+在 compileToFunctions 中，首先从缓存中加载编译好的 render 函数，如在缓存中未找到，则调用 compiled() 进行编译。
+
+```js
+return function compileToFunctions (
+  template: string,
+  options?: CompilerOptions,
+  vm?: Component
+): CompiledFunctionResult {
+  options = extend({}, options)
+  const warn = options.warn || baseWarn
+  delete options.warn
+	// ...
+  // 1. 读取缓存中的 CompiledFunctionResult 对象，如果有直接返回
+  const key = options.delimiters
+    ? String(options.delimiters) + template
+    : template
+  if (cache[key]) {
+    return cache[key]
+  }
+  // 2. 把模板编译为编译对象（render，staticRenderFns），字符串形式的 js 代码
+  const compiled = compile(template, options)
+	// ...
+  const res = {}
+  const fnGenErrors = []
+  // 3. 把字符串形式的 js 代码转换成 js 方法
+  res.render = createFunction(compiled.render, fnGenErrors)
+  res.staticRenderFns = compiled.staticRenderFns.map(code => {
+    return createFunction(code, fnGenErrors)
+  })
+	// ...
+  // 缓存并返回 res 对象（render, staticRenderFns 方法）
+  return (cache[key] = res)
+}
+```
+
+在 compiled() 方法中，首先进行合并选项，调用 baseCompile 进行编译，最后记录错误，返回编译好的对象。
+
+```js
+const compiled = baseCompile(template.trim(), finalOptions)
+```
+
+在 baseCompile 函数将模板编译成 render 函数，主要可分为以下三步：
+
+1. parse：把模板转换成 ast 抽象语法树
+2. optimize：优化抽象语法树
+   1. 优化抽象语法树，检测子节点中是否是纯静态节点
+   2. 一旦检测到纯静态节点（永远不会更改的节点）
+      1. 提升为常量，重新渲染的时候不在重新创建节点
+      2. 在 patch 的时候直接跳过静态子树
+3. generate：把抽象语法树生成字符串形式的 js 代码
+
+最后返回。
+
+```js
+export const createCompiler = createCompilerCreator(function baseCompile (
+  template: string,
+  options: CompilerOptions
+): CompiledResult {
+  // 把模板转换成 ast 抽象语法树
+  // 抽象语法树，用来以树形的方式描述代码结构
+  const ast = parse(template.trim(), options)
+  if (options.optimize !== false) {
+    // 优化抽象语法树
+    optimize(ast, options)
+  }
+  // 把抽象语法树生成字符串形式的 js 代码
+  const code = generate(ast, options)
+  return {
+    ast,
+    // 渲染函数
+    render: code.render,
+    // 静态渲染函数，生成静态 VNode 树 
+    staticRenderFns: code.staticRenderFns
+  }
+})
+```
+
